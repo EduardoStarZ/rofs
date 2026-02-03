@@ -10,4 +10,5 @@ RUN pwd
 # --- Stage 2: Create the minimal runtime image ---
 FROM alpine:latest
 COPY --from=builder /usr/local/cargo/bin/rofs ./rofs
+RUN mkdir static
 CMD ["./rofs"]
