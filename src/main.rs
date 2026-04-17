@@ -3,7 +3,7 @@ use ntex_files as nfs;
 
 #[ntex::main]
 async fn main() -> std::io::Result<()> {
-    println!("Starting process at localhost:8000.");
+    println!("Starting process at localhost:4000.");
 
     let server = web::HttpServer::new( move || {
         web::App::new().service(
@@ -13,5 +13,5 @@ async fn main() -> std::io::Result<()> {
         )
     });
 
-    server.bind(("0.0.0.0", 8000))?.run().await
+    server.bind(("0.0.0.0", 4000))?.run().await
 }
