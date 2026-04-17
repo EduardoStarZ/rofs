@@ -4,5 +4,6 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-ntex = {version = "2.16.0", features = ["tokio"]}
+ntex = {version = "2.16.0", features = ["tokio", "openssl"]}
 ntex-files = "2.1.0"
+openssl = { version = "0.10", features = ["vendored"] }

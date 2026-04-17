@@ -5,11 +5,11 @@ WORKDIR /usr/src/rofs
 COPY . .
 RUN cargo build --release --target x86_64-unknown-linux-musl
 RUN cargo install --target x86_64-unknown-linux-musl --path .
-RUN pwd
 
 # --- Stage 2: Create the minimal runtime image ---
 FROM alpine:latest
 VOLUME /static
 COPY --from=builder /usr/local/cargo/bin/rofs ./rofs
-RUN mkdir static
+COPY cert.pem /cert.pem
+COPY key.pem /key.pem
 CMD ["./rofs"]
