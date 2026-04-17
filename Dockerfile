@@ -1,17 +1,7 @@
-# --- Stage 1: Build the application ---
-FROM rust:1.93.0 AS builder
-RUN rustup target add x86_64-unknown-linux-musl
-WORKDIR /usr/src/rofs
-COPY . .
-ENV CARGO_TARGET_X86_64_UNKNOWN_LINUX_MUSL_LINKER=musl-gcc
-ENV OPENSSL_STATIC=1
-RUN cargo build --release --target x86_64-unknown-linux-musl
-RUN cargo install --target x86_64-unknown-linux-musl --path .
-
 # --- Stage 2: Create the minimal runtime image ---
 FROM alpine:latest
+COPY ./target/release/rofs .
 VOLUME /static
-COPY --from=builder /usr/local/cargo/bin/rofs ./rofs
-COPY cert.pem /cert.pem
-COPY key.pem /key.pem
+# COPY cert.pem /cert.pem
+# COPY key.pem /key.pem
 CMD ["./rofs"]
