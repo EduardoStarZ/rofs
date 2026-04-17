@@ -1,7 +1,7 @@
 services:
   rofs:
     ports: 
-      - "8000:8000"
+      - "4000:4000"
     volumes: 
       - ./rofs:/usr/src/rofs
     build: .
