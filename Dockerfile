@@ -3,6 +3,8 @@ FROM rust:1.93.0 AS builder
 RUN rustup target add x86_64-unknown-linux-musl
 WORKDIR /usr/src/rofs
 COPY . .
+ENV CARGO_TARGET_X86_64_UNKNOWN_LINUX_MUSL_LINKER=musl-gcc
+ENV OPENSSL_STATIC=1
 RUN cargo build --release --target x86_64-unknown-linux-musl
 RUN cargo install --target x86_64-unknown-linux-musl --path .
 
