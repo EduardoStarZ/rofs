@@ -7,3 +7,9 @@ edition = "2024"
 ntex = {version = "2.16.0", features = ["tokio", "openssl"]}
 ntex-files = "2.1.0"
 openssl = { version = "0.10", features = ["vendored"] }
+
+[profile.release]
+opt-level = "z"
+strip = true
+lto = true
+codegen-units = 1
