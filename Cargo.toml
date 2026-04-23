@@ -1,15 +1,20 @@
 [package]
 name = "rofs"
 version = "0.1.0"
-edition = "2024"
+edition = "2021"
 
 [dependencies]
-ntex = {version = "2.16.0", features = ["tokio", "openssl"]}
-ntex-files = "2.1.0"
-openssl = { version = "0.10", features = ["vendored"] }
+# default-features = false 
+ntex = { version = "2", default-features = false, features = ["tokio", "rustls"] }
+ntex-files = "2"
+ntex-multipart = "2"
+rustls = "0.23"
+rustls-pemfile = "2"
+tokio = { version = "1", features = ["full"] }
+futures-util = "0.3"
+bytes = "1"
 
-[profile.release]
-opt-level = "z"
-strip = true
-lto = true
-codegen-units = 1
+[dev-dependencies]
+# default-features = false desliga native-tls que vem por padrão no reqwest
+reqwest = { version = "0.12", default-features = false, features = ["multipart", "rustls-tls"] }
+tokio = { version = "1", features = ["full", "macros", "rt-multi-thread"] }
