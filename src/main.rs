@@ -1,6 +1,7 @@
 use openssl::ssl::{SslAcceptor, SslFiletype, SslMethod};
 use ntex::web;
 use ntex_files as nfs;
+use rofs::middleware::router;
 
 static IP : &str = "0.0.0.0";
 static PORT : u16 = 4000;
@@ -17,8 +18,9 @@ async fn main() -> std::io::Result<()> {
     builder.set_certificate_chain_file("certs/cert.pem").unwrap();
 
     let server = web::HttpServer::new( move || {
-        web::App::new().service(
-            nfs::Files::new("/static", "./static/")
+        web::App::new().wrap(router::Https)
+            .service(
+            nfs::Files::new("/", "./static/")
                 .show_files_listing()
                 .use_last_modified(true),
         )
