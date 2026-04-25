@@ -4,21 +4,22 @@ use ntex_files as nfs;
 use rofs::middleware::router;
 
 static IP : &str = "0.0.0.0";
-static PORT : u16 = 4000;
-static FULL_ADDR : (&str, u16) = (IP, PORT);
+static HTTPS_PORT : u16 = 4000;
+static FULL_HTTPS_ADDR : (&str, u16) = (IP, HTTPS_PORT);
 
 #[ntex::main]
 async fn main() -> std::io::Result<()> {
-    println!("Starting process at {IP}:{PORT}.");
+    println!("Starting process at {IP}:{HTTPS_PORT} for HTTPS.");
 
     let mut builder = SslAcceptor::mozilla_intermediate(SslMethod::tls()).unwrap();
-    
+
     builder.set_private_key_file("certs/key.pem", SslFiletype::PEM).unwrap();
-    
+
     builder.set_certificate_chain_file("certs/cert.pem").unwrap();
 
     let server = web::HttpServer::new( move || {
-        web::App::new().wrap(router::Https)
+        web::App::new()
+            .wrap(router::Https)
             .service(
             nfs::Files::new("/", "./static/")
                 .show_files_listing()
@@ -26,7 +27,8 @@ async fn main() -> std::io::Result<()> {
         )
     });
 
-    return server.bind_openssl(FULL_ADDR, builder)?
+    return server
+        .bind_openssl(FULL_HTTPS_ADDR, builder)?
         .run()
         .await;
 }
