@@ -6,7 +6,7 @@ use ntex::web;
 pub struct UploadTemplate {}
 
 #[web::get("/upload")]
-pub async fn upload(request : web::HttpRequest) -> web::HttpResponse {
+pub async fn upload() -> web::HttpResponse {
     let template : UploadTemplate = UploadTemplate {};
 
     let result : String = match template.render() {
