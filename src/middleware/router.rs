@@ -1,5 +1,5 @@
 use ntex::service::{Middleware, Service, ServiceCtx};
-use ntex::{http, web};
+use ntex::{web, http};
 
 
 pub struct Https;
@@ -28,20 +28,17 @@ where
 
     async fn call(&self, request: web::WebRequest<Err>, context: ServiceCtx<'_, Self>) -> Result<Self::Response, Self::Error> {
 
-        let connection_info = request.connection_info().clone();
-        let req_type = connection_info.scheme();
-        let host : &str = connection_info.host();
-        let uri : String = request.uri().to_string();
+        let uri = request.path();
 
-        println!("{req_type}");
+        println!("{uri}");
 
-        return match req_type {
-            "http" => {
-                let new_route = format!("https://{}{}", host, uri);
-                    Ok(request.into_response(web::HttpResponse::MovedPermanently().header(http::header::LOCATION, new_route).finish()))
-            },
-            _ => Ok(context.call(&self.service, request).await?)
-        };
 
+        if uri == "/" {
+            let redirect : web::HttpResponse = web::HttpResponse::PermanentRedirect().header(http::header::LOCATION, "/static").finish();
+            
+            return Ok(request.into_response(redirect));    
+        }
+
+       return Ok(context.call(&self.service, request).await?);
     }
 }

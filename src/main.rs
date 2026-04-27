@@ -2,6 +2,7 @@ use openssl::ssl::{SslAcceptor, SslFiletype, SslMethod};
 use ntex::web;
 use ntex_files as nfs;
 use rofs::middleware::router;
+use rofs::pages;
 
 static IP : &str = "0.0.0.0";
 static HTTPS_PORT : u16 = 4000;
@@ -21,10 +22,11 @@ async fn main() -> std::io::Result<()> {
         web::App::new()
             .wrap(router::Https)
             .service(
-            nfs::Files::new("/", "./static/")
+            nfs::Files::new("/static", "./static/")
                 .show_files_listing()
                 .use_last_modified(true),
-        )
+            )
+            .service(pages::upload)
     });
 
     return server

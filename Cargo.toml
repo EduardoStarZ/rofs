@@ -6,6 +6,7 @@ edition = "2024"
 [dependencies]
 ntex = {version = "2.16.0", features = ["tokio", "openssl"]}
 ntex-files = "2.1.0"
+askama = "0.15.6"
 openssl = { version = "0.10", features = ["vendored"] }
 
 [profile.release]
