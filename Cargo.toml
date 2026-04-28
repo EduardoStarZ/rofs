@@ -4,10 +4,13 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-ntex = {version = "2.16.0", features = ["tokio", "openssl"]}
-ntex-files = "2.1.0"
 askama = "0.15.6"
-openssl = { version = "0.10", features = ["vendored"] }
+openssl = { version = "0.10.78", features = ["vendored"] }
+futures-util = "0.3.32"
+ntex = {version = "3.2.0", features = ["tokio", "openssl"]}
+ntex-files = "3.2.0"
+ntex-multipart = "3.2.0"
+env_logger = "0.11.10"
 
 [profile.release]
 opt-level = "z"

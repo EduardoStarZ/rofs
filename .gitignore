@@ -1,4 +1,5 @@
 /target
 /certs
+/static
 key.pem
 cert.pem

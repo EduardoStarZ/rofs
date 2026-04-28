@@ -1,3 +1,19 @@
-<h1>
-	This is the rendered page!
-</h1>
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title></title>
+		<link href="css/style.css" rel="stylesheet">
+	</head>
+	<body>
+		<h1>
+			This is the rendered page!
+		</h1>
+
+		<form action="/upload" method="post" enctype="multipart/form-data">
+			<input type="file" name="myFile" />
+			<input type="submit" />
+		</form>
+	</body>
+</html>
